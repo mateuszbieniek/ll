@@ -1,0 +1,26 @@
+{% extends '@ibexadesign/pagelayout.html.twig' %}
+
+{% block title ibexa_content_name(content) ~ ' - ' ~ parent() %}
+
+{% set menu_active = 'events' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="event">{{ ibexa_content_name(content) }}</h1>
+            <p>{{ ibexa_render_field(content, 'start') }}</p>
+            <p>{{ ibexa_field_value(content, 'country') }}, {{ ibexa_field_value(content, 'city') }}</p>
+            {% set registration = ibexa_field_value(content, 'registration') %}
+            {% if registration.bool == true %}
+            <p><button type="button" class="btn btn-primary">Participate!</button></p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+    {% for stage in stages %}
+        {{ ibexa_render(stage, {'viewType': 'embed', 'method': 'esi'}) }}
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

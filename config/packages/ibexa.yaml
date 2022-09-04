@@ -52,6 +52,8 @@ ibexa:
     repositories:
         default:
             storage: ~
+            options:
+                default_version_archive_limit: 5
             search:
                 engine: '%search_engine%'
                 connection: default
@@ -70,6 +72,15 @@ ibexa:
     #      on single-site you can place shared config under "default" for simplicity as shown below.
     system:
         default:
+            user_registration:
+                user_type_identifier: participant
+                group_id: '%env(int:APP_PARTICIPANTS_USER_GROUP_ID)%'
+                form:
+                    allowed_field_definitions_identifiers:
+                        - nickname
+                        - user
+                templates:
+                    form: '@ibexadesign/user/registration_form.html.twig'
             # Cache pool service, needs to be different per repository (database) on multi repository install.
             cache_service_name: '%cache_pool%'
             # These reflect the current installers, complete installation before you change them. For changing var_dir
@@ -91,7 +102,42 @@ ibexa:
                 default_icon_set: public_icons
 
         site:
+            user:
+                login_template: '@ibexadesign/security/login.html.twig'
+            pagelayout: '@ibexadesign/pagelayout.html.twig'
             languages: [eng-GB]
+            content_view:
+                full:
+                    homepage:
+                        controller: App\Controller\HomeController::index
+                        template: '@ibexadesign/full/homepage.html.twig'
+                        match:
+                            Identifier\ContentType: homepage
+                    event:
+                        controller: App\Controller\EventController::show
+                        template: '@ibexadesign/full/event.html.twig'
+                        match:
+                            Identifier\ContentType: event
+                embed:
+                    event:
+                        controller: App\Controller\EventController::show
+                        template: '@ibexadesign/embed/event.html.twig'
+                        match:
+                            Identifier\ContentType: event
+                    stage:
+                        controller: App\Controller\StageController::embed
+                        template: '@ibexadesign/embed/stage.html.twig'
+                        match:
+                            Identifier\ContentType: stage
+                    match:
+                        template: '@ibexadesign/embed/match.html.twig'
+                        match:
+                            Identifier\ContentType: match
+                    participant:
+                        template: '@ibexadesign/embed/participant.html.twig'
+                        match:
+                            Identifier\ContentType: participant
+
 
     url_alias:
         slug_converter:

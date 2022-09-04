@@ -1,0 +1,12 @@
+{% extends '@ibexadesign/pagelayout.html.twig' %}
+
+{% block content %}
+    <section>
+        {{ ibexa_render_field(content, 'body') }}
+    </section>
+    {% if featuredEvent is not null %}
+    <section>
+        {{ ibexa_render(featuredEvent, {'viewType': 'embed', 'method': 'esi'}) }}
+    </section>
+    {% endif %}
+{% endblock %}

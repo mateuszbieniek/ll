@@ -1,0 +1,18 @@
+{% extends '@ibexadesign/pagelayout.html.twig' %}
+
+{% block title 'Events - ' ~parent() %}
+
+{% set menu_active = 'events' %}
+
+{% block content %}
+    <div class="container">
+    {% for location in eventLocations %}
+        <div class="row">
+            <div class="col">
+                <a href="{{ ibexa_path(location) }}"><h1>{{ ibexa_content_name(location.content) }}</h1></a>
+                {{ ibexa_render_field(location.content, 'description') }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

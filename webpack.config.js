@@ -28,12 +28,8 @@ Encore
     })
 ;
 
-// Welcome page stylesheets
-Encore.addEntry('welcome_page', [
-    path.resolve(__dirname, './assets/scss/welcome-page.scss'),
-]);
-
 Encore.addEntry('app', './assets/app.js');
+Encore.addEntry('login', './assets/login.js');
 
 const projectConfig = Encore.getWebpackConfig();
 

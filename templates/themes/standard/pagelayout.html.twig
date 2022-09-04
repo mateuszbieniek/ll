@@ -1,12 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="{{ app.request.locale|replace({'_': '-'}) }}">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/x-icon" href="{{ asset('bundles/ibexaadminui/img/favicon.ico') }}" />
-    <meta charset="utf-8">
     {% if content is defined and title is not defined %}
         {% set title = ibexa_content_name( content ) %}
     {% endif %}
-    <title>{{ title|default( 'Home' ) }}</title>
+    <title>{% block title %}Ibexa's Looping Louie Championship!{% endblock %}</title>
     <meta name="generator" content="Ibexa Open Source"/>
     {% if content is defined and content.contentInfo.mainLocationId %}
         <link rel="canonical" href="{{ ibexa_path(content) }}" />
@@ -16,10 +18,52 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
-<body>
-{% block content %}
-{% endblock %}
-
+<body class="d-flex flex-column h-100">
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Ibexa's Looping Louie Championship</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link{% if menu_active|default('home') == 'home' %} active{% endif %}" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if menu_active|default('home') == 'events' %} active{% endif %}" href="{{ path('app_events') }}">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{% if menu_active|default('home') == 'about' %} active{% endif %}" href="{{ path('app_about') }}">About</a>
+                    </li>
+                    {% if app.user is null %}
+                        <li class="nav-item">
+                            <a class="nav-link{% if menu_active|default('home') == 'register' %} active{% endif %}" href="/register">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link{% if menu_active|default('home') == 'signin' %} active{% endif %}" href="{{ path('login') }}">Sign in</a>
+                        </li>
+                    {% else %}
+                        {{ render_esi(controller('App\\Controller\\ProfileController::menu')) }}
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container">
+    {% for label, messages in app.flashes(['success', 'danger']) %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                {% if label == 'succes' %}<i class="fa-solid fa-check"></i>{% endif %} {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% block content %}
+    {% endblock %}
+</div>
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}

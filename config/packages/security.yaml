@@ -30,9 +30,12 @@ security:
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         ibexa:
-            id: ibexa.security.user_provider
-    #!        in_memory:
-    #!            memory: ~
+            chain:
+                providers: [ibexa_username, ibexa_email]
+        ibexa_username:
+            id: ibexa.security.user_provider.username
+        ibexa_email:
+            id: ibexa.security.user_provider.email
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -78,6 +81,10 @@ security:
                 require_previous_session: false
                 csrf_token_generator: security.csrf.token_manager
             logout: ~
+            provider: ibexa
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
 
         main:
             anonymous: ~
@@ -88,3 +95,8 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+
+    access_control:
+        - { path: '^/user/profile', roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: '^/events/withdraw', roles: [IS_AUTHENTICATED_FULLY] }
+        - { path: '^/events/participate', roles: [IS_AUTHENTICATED_FULLY] }

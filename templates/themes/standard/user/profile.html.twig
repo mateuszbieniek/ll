@@ -1,0 +1,16 @@
+{% extends '@ibexadesign/pagelayout.html.twig' %}
+
+{% block title ibexa_content_name(user) ~ '- Profile - ' ~ parent() %}
+
+{% set menu_active = 'profile' %}
+
+{% block content %}
+    <h2>{{ ibexa_content_name(user) }} - Profile</h2>
+    <div class="container">
+        {{ form(form) }}
+    </div>
+    <script>
+        var profileItem = document.getElementById('profile_item');
+        profileItem.classList.add('active');
+    </script>
+{% endblock %}

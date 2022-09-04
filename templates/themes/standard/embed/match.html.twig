@@ -1,0 +1,35 @@
+<div class="matchBlock">
+    <div class="row">
+        <div class="col">
+            <h3 class="match">
+                {{ ibexa_content_name(content) }}
+            </h3>
+            {% if ibexa_field_value(content, 'score').text is not empty %}<p><strong>Score:</strong> {{ ibexa_field_value(content, 'score').text }}</p>{% endif %}
+        </div>
+    </div>
+    <div>
+    {% set participants = ibexa_field_value(content, 'participants').destinationContentIds %}
+    {% set winner = ibexa_field_value(content, 'winner').destinationContentId %}
+    {% if participants|length == 0 %}
+        <p class="text-center"><i>TBA</i></p>
+    {% else %}
+        {% for i in 0..participants|length %}
+            <div class="row">
+                <div class="col">
+                    {% if participants[i] is defined %}
+                        {{ render(controller('ibexa_content:embedAction', {
+                            contentId: participants[i],
+                            viewType: 'embed',
+                            params: {
+                                parameters: {'winner': participants[i] == winner }
+                            }
+                        }))}}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+</div>

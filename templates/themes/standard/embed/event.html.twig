@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h1 class="event">{{ ibexa_content_name(content) }}</h1>
+            <p>{{ ibexa_render_field(content, 'start') }}</p>
+            <p>{{ ibexa_field_value(content, 'country') }}, {{ ibexa_field_value(content, 'city') }}</p>
+            {% set registration = ibexa_field_value(content, 'registration') %}
+            {% set participants = ibexa_field_value(content, 'participants').destinationContentIds %}
+            <p><i>Players registered: {{ participants|length }}</i></p>
+            {% if registration.bool == true and app.user %}
+                {% if app.user.getApiUser.id in participants %}
+                    <form method="post" class="pb-4" action="{{ path('app_event_withdraw', { contentId: content.id }) }}">
+                        <button class="btn btn-primary">Withdraw :(</button>
+                    </form>
+                {% else %}
+                    <form method="post" class="pb-4" action="{{ path('app_event_participate', { contentId: content.id }) }}">
+                        <button class="btn btn-primary">Participate :)</button>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+    {% for stage in stages %}
+        {{ ibexa_render(stage, {'viewType': 'embed', 'method': 'esi'}) }}
+    {% endfor %}
+    </div>
+</div>

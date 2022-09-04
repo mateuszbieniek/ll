@@ -20,5 +20,19 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags:
+            - 'controller.service_arguments'
+
+    App\Controller\EventController:
+        arguments:
+            $rootLocationId: '%env(APP_ROOT_LOCATION_ID)%'
+        tags:
+            - 'controller.service_arguments'
+
+    App\Controller\HomeController:
+        arguments:
+            $aboutContentId: '%env(APP_ABOUT_CONTENT_ID)%'
+        tags:
+            - 'controller.service_arguments'

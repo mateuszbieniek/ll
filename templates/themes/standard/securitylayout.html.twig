@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale|replace({'_': '-'}) }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{ asset('bundles/ibexaadminui/img/favicon.ico') }}" />
+    {% if content is defined and title is not defined %}
+        {% set title = ibexa_content_name( content ) %}
+    {% endif %}
+    <title>{% block title %}{% if title is defined %}{{ tile }} - {% endif %}Ibexa's Looping Louie Championship!{% endblock %}</title>
+    <meta name="generator" content="Ibexa Open Source"/>
+    {% if content is defined and content.contentInfo.mainLocationId %}
+        <link rel="canonical" href="{{ ibexa_path(content) }}" />
+    {% endif %}
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('login') }}
+    {% endblock %}
+</head>
+<body class="text-center">
+{% block body %}
+{% endblock %}
+{% block javascripts %}
+    {{ encore_entry_script_tags('login') }}
+{% endblock %}
+</body>
+</html>

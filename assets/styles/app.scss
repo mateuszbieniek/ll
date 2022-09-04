@@ -1,0 +1,49 @@
+$primary: darken(#ae1164, 20%);
+
+@import "~bootstrap/scss/bootstrap";
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+
+body {
+  padding-top: 70px;
+}
+
+h1.event {
+  color: #ff4713;
+  font-size: 3.0em;
+  font-weight: bold;
+}
+
+h2.stage {
+  color: #ff4713;
+  font-weight: bold;
+  font-size: 1.5em;
+  letter-spacing: 5px;
+  text-align: center;
+}
+
+h3.match {
+  color: #ff4713;
+  font-weight: bold;
+  font-size: 1.2em;
+  letter-spacing: 5px;
+  text-align: center;
+}
+
+.matchBlock {
+  margin-bottom: 20px;
+  border-radius: 25px;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.stageBlock {
+  margin-bottom: 20px;
+  border-radius: 25px;
+  background: #e8e8e8;
+  padding: 10px;
+}
+
+.align-center {
+  text-align: center;
+}
