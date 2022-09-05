@@ -1,6 +1,11 @@
 {% extends '@ibexadesign/pagelayout.html.twig' %}
 
 {% block content %}
+    {% if ibexa_field_value(content, 'image') is not null %}
+    <section class="text-center">
+        {{ ibexa_render_field(content, 'image', { parameters: { 'class': 'img-fluid' } }) }}
+    </section>
+    {% endif %}
     <section>
         {{ ibexa_render_field(content, 'body') }}
     </section>
